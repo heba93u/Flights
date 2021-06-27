@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Logger;
 
 @Service
 public class FlightsService {
@@ -16,17 +15,17 @@ public class FlightsService {
 
 
     public FlightsService(){
-        for (int i = 0; i < 100; i++) {
-            randomCouponNumber.add(rand.nextInt(1000));
+        for (int i = 0; i < 10; i++) {
+            randomCouponNumber.add(rand.nextInt(10));
         }
         ArrayList<Flight> flights1 = new ArrayList<>();
-        for (int j = 200; j < 300  ; j++) {
+        for (int destId = 200; destId < 300  ; destId++) {
             ArrayList<Ticket> tickets = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
-                Ticket ticket = new Ticket(i, true, j);
+            for (int ticketId = 0; ticketId < 100; ticketId++) {
+                Ticket ticket = new Ticket(ticketId, true, destId);
                 tickets.add(ticket);
             }
-            Flight flight = new Flight(j,tickets);
+            Flight flight = new Flight(destId,tickets);
             flights1.add(flight);
         }
         flights.setFlights(flights1);
@@ -49,17 +48,14 @@ public class FlightsService {
                 if (flights.getFlights().get(i).tickets.get(j).getTicketId() == ticketId) {
                     {
                         if (flights.getFlights().get(i).tickets.get(j).isAvailable()) {
-                            System.out.println("Ticket with Id = " + ticketId + " is Available");
                             return true;
                         } else {
-                            System.out.println("Ticket with Id = " + ticketId + " not Available");
                             return false;
                         }
                     }
                 }
             }
         }
-        System.out.println("Ticket with Id = " + ticketId + " not Available");
         return false;
     }
 
@@ -74,7 +70,7 @@ public class FlightsService {
     public double isCouponValid(int couponId, Double price) {
         int[] discountArr = {10,50,60};
         Random rand = new Random();
-        int x = rand.nextInt(4);
+        int x = rand.nextInt(3);
         if(randomCouponNumber.contains(couponId)) {
             double discount = (double) (100 - discountArr[x]) / 100;
             return price * discount;
