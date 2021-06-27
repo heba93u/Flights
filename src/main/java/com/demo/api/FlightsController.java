@@ -4,7 +4,9 @@ import com.demo.model.Cache;
 import com.demo.service.FlightsService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RequestMapping("api/v1/flights")
 @RestController
@@ -12,7 +14,7 @@ public class FlightsController{
 
     FlightsService flightsService = new FlightsService();
     private Cache cache =  new Cache();
-    private static final Logger LOGGER = Logger.getLogger(FlightsController.class.getName());
+    Logger LOGGER = LoggerFactory.getLogger(FlightsController.class);
 
     @GetMapping(path = "/checkTicketAvailability")
     public boolean checkTicketAvailability(@RequestParam("ticketId") int ticketId){
@@ -38,20 +40,15 @@ public class FlightsController{
         return  resp;
     }
 
-    @PutMapping(path = "/isCouponValid")
+    @GetMapping(path = "/isCouponValid")
     public double isCouponValid(@RequestParam("couponId")int couponId, @RequestParam("price")Double price){
         LOGGER.info("New isCouponValid request arrived with params couponId = " + couponId +" , price = "  +price);
         double returnedPrice = flightsService.isCouponValid(couponId,price);
         if (returnedPrice == price)
-            LOGGER.info("The coupon with Id = " + couponId + "is not valid");
+            LOGGER.info("The coupon with Id = " + couponId + " is not valid");
         else
             LOGGER.info("Price after discount " +  returnedPrice);
         return returnedPrice ;
     }
 
-
-    //    @GetMapping(path = "/getBaggage")
-//    public Long getBaggage(@RequestParam("destId")int destId){
-//        return flightsService.getBaggage(destId);
-//    }
 }
