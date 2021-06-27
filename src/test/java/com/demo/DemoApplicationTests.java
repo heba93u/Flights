@@ -18,7 +18,7 @@ class DemoApplicationTests {
 	void contextLoads() throws IOException, InterruptedException {
 		boolean res = Boolean.parseBoolean(sendGET("http://localhost:8080/api/v1/flights/checkTicketAvailability/?ticketId=99"));
 		Assert.isTrue(res,"checkTicketAvailability was failed");
-		sendPut("http://localhost:8080/api/v1/flights/checkIn/?destId=200&baggageId=50");
+		res = Boolean.parseBoolean(sendPut("http://localhost:8080/api/v1/flights/checkIn/?destId=200&baggageId=50"));
 		Assert.isTrue(res,"checkIn was failed");
 
 	}
